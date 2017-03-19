@@ -118,7 +118,7 @@ export default class EventHandler extends React.Component {
   }
 
   handleMouseDown(e) {
-    if (!this.props.enablePanZoom) {
+    if (!this.props.enablePanZoom || this.state.isPanning) {
       return;
     }
 

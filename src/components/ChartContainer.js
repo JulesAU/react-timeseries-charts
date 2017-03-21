@@ -94,6 +94,12 @@ export default class ChartContainer extends React.Component {
     }
   }
 
+  handlePanZoomEnd() {
+    if (this.props.onPanZoomEnd) {
+      this.props.onPanZoomEnd();
+    }
+  }
+
   handleZoom(timerange) {
     if (this.props.onTimeRangeChanged) {
       this.props.onTimeRangeChanged(timerange);
@@ -321,6 +327,7 @@ export default class ChartContainer extends React.Component {
           onMouseOut={e => this.handleMouseOut(e)}
           onMouseMove={e => this.handleMouseMove(e)}
           onMouseClick={e => this.handleBackgroundClick(e)}
+          onPanZoomEnd={e => this.handlePanZoomEnd(e)}
           onZoom={tr => this.handleZoom(tr)}
           onResize={(width, height) => this.handleResize(width, height)}
         >
@@ -501,7 +508,13 @@ ChartContainer.propTypes = {
    * Called when the user clicks the background plane of the chart. This is
    * useful when deselecting elements.
    */
-  onBackgroundClick: React.PropTypes.func
+  onBackgroundClick: React.PropTypes.func,
+  /**
+   * Called when the user finishing panning or zooming the chart. Useful
+   * to save expensive tasks until after panning is complete rather than doing
+   * them syncronously whilst panning.
+   */
+  onPanZoomEnd: React.PropTypes.func
 };
 
 ChartContainer.defaultProps = {

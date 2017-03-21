@@ -161,6 +161,8 @@ export default class EventHandler extends React.Component {
         Math.abs(x - this.state.initialPanPosition[0]) < 2
     ) {
       this.props.onMouseClick();
+    } else {
+      if (this.props.onPanZoomEnd) this.props.onPanZoomEnd();
     }
 
     this.setState({
@@ -274,6 +276,9 @@ export default class EventHandler extends React.Component {
             initialPanEnd: null,
             initialPanPosition: null
           });
+
+          if (this.props.onPanZoomEnd) this.props.onPanZoomEnd();
+
         }
       }
 
@@ -312,7 +317,13 @@ EventHandler.propTypes = {
   onZoom: React.PropTypes.func,
   onMouseMove: React.PropTypes.func,
   onMouseOut: React.PropTypes.func,
-  onMouseClick: React.PropTypes.func
+  onMouseClick: React.PropTypes.func,
+  /**
+   * Called when the user finishing panning or zooming the chart. Useful
+   * to save expensive tasks until after panning is complete rather than doing
+   * them syncronously whilst panning.
+   */
+  onPanZoomEnd: React.PropTypes.func
 };
 
 EventHandler.defaultProps = {
